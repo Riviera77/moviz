@@ -1,0 +1,65 @@
+networks:
+  Moviz_network:
+    driver: bridge
+
+services:
+
+  php:
+    container_name: php_moviz
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html/
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - Moviz_network
+  
+  web:
+    image: nginx:alpine
+    container_name: nginx_moviz
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - .:/var/www/html
+    ports:
+      - 8081:80
+    depends_on:
+      - php
+    networks:
+      - Moviz_network
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: mysql:8.0
+    container_name: db_moviz
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB}
+      # You should definitely change the password in production
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - Moviz_network
+    volumes:
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally
+      # remove the volume and lose all your data!
+      - ./docker/db/data:/var/lib/mysql
+###< doctrine/doctrine-bundle ###
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  moviz_data:
+###< doctrine/doctrine-bundle ###
+
+  
