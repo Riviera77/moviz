@@ -24,17 +24,7 @@ Moviz est un site web de **notation et critique de films**. Il permet aux utilis
 - **Environnement local** : Docker Desktop
 
 ## 📁 Structure du projet
-├── docker-compose.yml
-├── Dockerfile
-├── nginx/
-│   └── conf.d/
-├── src/
-├── templates/
-├── public/
-├── config/
-├── migrations/
-└── README.md
-
+![Alt text](public/img/structure-projet.png)
 ## ⚙️ Démarrage local avec Docker
 
 ```bash
@@ -53,8 +43,7 @@ docker exec -it php_moviz php bin/console doctrine:migrations:migrate
 🔐 Accès à l’application
 	•	Frontend : http://localhost:8081
 	•	Back-office : http://localhost:8081/admin (EasyAdmin)
-	•	MySQL/PostgreSQL : accès via phpMyAdmin ou DBeaver
-	•	MongoDB : accès via MongoDB Compass
+	•	MySQL : accès via phpMyAdmin
 
 📚 Documentation incluse
 	•	Charte graphique appliquée
@@ -63,4 +52,4 @@ docker exec -it php_moviz php bin/console doctrine:migrations:migrate
 
 👩‍💻 Auteur
 
-Développé par CodingQueen40 dans le cadre de l’ECF – Titre professionnel DWWM.
+Développé par Ingrid Freguis dans le cadre de l’ECF – Titre professionnel DWWM.
