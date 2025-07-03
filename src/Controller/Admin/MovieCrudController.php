@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Movie;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -25,7 +26,7 @@ class MovieCrudController extends AbstractCrudController
             ->setRequired(true)
             ->setHelp("Entrez le nom du réalisateur");
 
-        yield DateTimeField::new("release_date")
+        yield DateField::new("release_date")
             ->setLabel("Date de sortie")
             ->setRequired(true)
             ->setHelp("Entrez la date de sortie du film");
@@ -36,9 +37,8 @@ class MovieCrudController extends AbstractCrudController
             ->setHelp('Sélectionnez les réalisateurs associés à ce film');
         
         yield AssociationField::new('genres')
-            ->setLabel('Genre')
+            ->setLabel('Genres')
             ->setRequired(true)
             ->setHelp('Sélectionnez les genres associés à ce film');
     }
-   
 }
