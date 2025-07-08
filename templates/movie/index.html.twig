@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MovieController!{% endblock %}
+
+{% block body %}
+
+{% for movie in movies %}
+
+    <h2>{{ movie.name }}</h2>
+
+{% else %}
+    <p>No movies found.</p>
+{% endfor %}
+
+{% endblock %}
