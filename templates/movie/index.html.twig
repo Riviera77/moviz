@@ -6,7 +6,7 @@
 
 {% for movie in movies %}
 
-    <h2>{{ movie.name }}</h2>
+    {% include 'partials/movie/_movie_bloc.html.twig' %}
 
 {% else %}
     <p>No movies found.</p>
