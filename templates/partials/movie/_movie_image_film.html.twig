@@ -1,0 +1,5 @@
+{% if movie.imageName %}
+    <img src="{{ vich_uploader_asset(movie, 'imageFile') }}" class="card-img-top" alt="affiche {{ movie.name }}">
+{% else %}
+    <img src="{{ asset('build/images/default-movie.png') }}" class="card-img-top" alt="affiche {{ movie.name }}">
+{% endif %}
