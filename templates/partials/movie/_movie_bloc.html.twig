@@ -8,7 +8,7 @@
         {% endif %}
         <div class="card-body">
             <h5 class="card-title">{{ movie.name }}</h5>
-            <a href="#" class="btn btn-primary">Voir l'affiche</a>
+            <a href="{{ url('app_movie_show', {'id': movie.id})}}" class="btn btn-primary">Voir l'affiche</a>
         </div>
     </div>
 </div>
