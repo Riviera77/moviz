@@ -30,7 +30,7 @@ class ReviewCrudController extends AbstractCrudController
             '4' => '4',
             '5' => '5',
         ])->renderExpanded();
-        yield AssociationField::new('user','Utilisateur');
+        yield AssociationField::new('userAccount','Utilisateur');
         yield AssociationField::new('movie','Film');
 
     }

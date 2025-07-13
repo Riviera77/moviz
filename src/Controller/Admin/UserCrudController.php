@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\UserAccount;
 use EasyCorp\Bundle\EasyAdminBundle\Config\{Action, Actions, Crud, KeyValueStore};
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -11,18 +12,16 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\{ChoiceField, IdField, EmailField, Tex
 use Symfony\Component\Form\Extension\Core\Type\{PasswordType, RepeatedType};
 use Symfony\Component\Form\{FormBuilderInterface, FormEvent, FormEvents};
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Validator\Constraints\Choice;
 
 class UserCrudController extends AbstractCrudController
 {
     public function __construct(
-        public UserPasswordHasherInterface $userPasswordHasher
+        public UserPasswordHasherInterface $userAccountPasswordHasher
     ) {}
 
     public static function getEntityFqcn(): string
     {
-        return User::class;
+        return UserAccount::class;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -92,7 +91,7 @@ class UserCrudController extends AbstractCrudController
                 return;
             }
 
-            $hash = $this->userPasswordHasher->hashPassword($this->getUser(), $password);
+            $hash = $this->userAccountPasswordHasher->hashPassword($this->getUser(), $password);
             $form->getData()->setPassword($hash);
         };
     }
