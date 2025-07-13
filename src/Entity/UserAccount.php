@@ -139,7 +139,7 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->reviews->contains($review)) {
             $this->reviews->add($review);
-            $review->setUser($this);
+            $review->setUserAccount($this);
         }
 
         return $this;
@@ -149,8 +149,8 @@ class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->reviews->removeElement($review)) {
             // set the owning side to null (unless already changed)
-            if ($review->getUser() === $this) {
-                $review->setUser(null);
+            if ($review->getUserAccount() === $this) {
+                $review->setUserAccount(null);
             }
         }
 
