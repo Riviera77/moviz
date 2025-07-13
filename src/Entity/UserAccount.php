@@ -10,20 +10,16 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class UserAccount implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    /**
-     * @var list<string> The user roles
-     */
     #[ORM\Column]
     private array $roles = [];
 
@@ -36,10 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $nickname = null;
 
-    /**
-     * @var Collection<int, Review>
-     */
-    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'user')]
+    #[ORM\OneToMany(mappedBy: 'userAccount', targetEntity: Review::class, orphanRemoval: true)]
     private Collection $reviews;
 
     public function __construct()
@@ -47,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reviews = new ArrayCollection();
     }
 
-    public function __toString(): string
+    public function __toString()
     {
         return $this->getNickname();
     }
@@ -91,9 +84,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -104,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }

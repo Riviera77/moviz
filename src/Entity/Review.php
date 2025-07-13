@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\UserAccount;
 use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +26,7 @@ class Review
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $user = null;
+    private ?UserAccount $userAccount = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
@@ -72,14 +73,14 @@ class Review
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?UserAccount
     {
-        return $this->user;
+        return $this->userAccount;
     }
 
-    public function setUser(?user $user): static
+    public function setUser(?UserAccount $userAccount): static
     {
-        $this->user = $user;
+        $this->userAccount = $userAccount;
 
         return $this;
     }
