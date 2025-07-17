@@ -47,6 +47,9 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         // If the user has a specific target path set, redirect to that
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
+        } else if ($targetPath = $request->getSession()->get('previous_url')) {
+            // If the user has a previous URL stored in the session, redirect to that
+            return new RedirectResponse($targetPath);
         }
         // Otherwise, redirect to the home page
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
