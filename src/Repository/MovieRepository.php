@@ -40,4 +40,18 @@ class MovieRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findMovies($genreId = null)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m, g')
+            ->leftJoin('m.genres', 'g');
+
+        if ($genreId !== null) {
+            $qb->andWhere('g.id = :genreId')
+                ->setParameter('genreId', $genreId);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
