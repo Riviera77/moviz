@@ -5,16 +5,19 @@
                 </a>
 
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="{{ url('app_home')}}" class="nav-link px-2 link-secondary">Accueil</a></li>
-                    <li><a href="{{ url('app_movie')}}" class="nav-link px-2 link-dark">Les films</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-                    <li><a href="{{ url('app_about')}}" class="nav-link px-2 link-dark">À propos</a></li>
+                    <li><a href="{{ path('app_home')}}" class="nav-link px-2 link-secondary">Accueil</a></li>
+                    <li><a href="{{  path('app_movie')}}" class="nav-link px-2 link-dark">Les films</a></li>
+                    <li><a href="{{  path('app_about')}}" class="nav-link px-2 link-dark">À propos</a></li>
                 </ul>
 
                 <div class="col-md-3 text-end">
-                    <button type="button" class="btn btn-outline-primary me-2">Login</button>
-                    <button type="button" class="btn btn-primary">Sign-up</button>
+                    {% if app.user %}
+                        <span class="me-2">👋 Bonjour {{ app.user.nickname ?? app.user.email }}</span>
+                        <a href="{{ path('app_logout') }}" class="btn btn-outline-danger">Logout</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Connexion</a>
+                        <a href="{{ path('app_logout') }}" class="btn btn-primary">Deconnexion</a>
+                    {% endif %}
                 </div>
             </header>
         </div>

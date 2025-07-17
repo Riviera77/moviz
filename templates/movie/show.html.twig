@@ -4,12 +4,68 @@
 
 {% block body %}
 
+<h1>{{ movie.name }}</h1>
+<div class="row">
+    <div class="col">
+        Date de sortie:
+        {% if movie.releaseDate %}
+            <span class="badge bg-success">Sorti</span>
+            {{ movie.releaseDate|date('d/m/Y') }}  
+        {% else %}
+            <span class="badge bg-danger">Non communiqué</span>
+        {% endif %}
+    </div>
+    <div class="col">
+        Durée:
+        {% if movie.duration %}
+            {{ movie.duration.format('H') }} heures 
+            {{ movie.duration.format('i') }} minutes
+        {% else %}
+            <span class="badge bg-danger">Non communiqué</span>
+        {% endif %}
+    </div>
+    <div class="col">
+        {% for genre in movie.genres %}
+            <a href="{{ path('app_movie', {'genreId': genre.id})}}"><span class="badge bg-secondary">{{ genre.name }}</span></a>
+        {% else %}
+            <span class="badge bg-danger">Non communiqué</span>
+        {% endfor %}
+    </div>
+    <div class="col">
+        {% for director in movie.directors %}
+            <span class="badge bg-secondary">{{ director.firstName }} {{ director.lastName }}</span>
+        {% else %}
+            <span class="badge bg-danger">Non communiqué</span>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        {% if averageRate %}
+            <p class="p-2">Note moyenne:</p>
+            <div class="rate">
+                {% for i in range(5,1, -1) %}
+                <input disabled="disabled" type="radio" id="avgstar{{ i }}" name="avgrate" value="{{ i }}" {{ averageRate == i ? 'checked="checked"' : '' }}/>
+				<label for="avgstar{{ i }}" title="{{ i }} étoiles">{{ i }}
+					étoiles</label>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Il n'y a pas encore de note</p>
+        {% endif %}
+    </div>
+</div>
+
 <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-4">
-        {% include 'partials/movie/_movie_image_film.html.twig' %}
-    </div>
+		{% if movie.imageName %}
+			<img src="{{ vich_uploader_asset(movie, 'imageFile') }}" class="card-img-top" alt="affiche {{ movie.name }}">
+		{% else %}
+			<img src="{{ asset('build/images/default-movie.png') }}" class="card-img-top" alt="affiche {{ movie.name }}">
+		{% endif %}
+	</div>
     <div class="col-lg-8">
-        <h1 class="display-5 fw-bold lh-1 mb-3">{{ movie.name }}</h1>
         <p class="lead">{{ movie.synopsis|raw}}</p>
     </div>
 </div>
@@ -17,6 +73,12 @@
 <div class="row">
     <div class="col-12">
         <h2>Laisser un avis</h2>
-        {% include 'partials/review/_form.html.twig' %}
+
+        {% if user %}
+            {% include 'partials/review/_form.html.twig' %}
+        {% else %}
+            <p>Vous devez être connecté pour laisser un avis.
+            Rendez-vous sur la page <a href="{{ path('app_login') }}">Connexion</a> </p>
+        {% endif %}
     </div>
 {% endblock %}
