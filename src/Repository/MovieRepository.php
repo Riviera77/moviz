@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Movie;
+use App\Entity\Director;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -41,15 +42,27 @@ class MovieRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function findMovies($genreId = null)
+    public function findMovies($genreId = null, $directorId = null, $keyword = null)
     {
         $qb = $this->createQueryBuilder('m')
-            ->select('m, g')
-            ->leftJoin('m.genres', 'g');
+            ->leftJoin('m.genres', 'g')
+            ->leftJoin('m.directors', 'd')
+            ->select('m', 'g', 'd');
 
-        if ($genreId !== null) {
+        if (!empty($genreId)) {
             $qb->andWhere('g.id = :genreId')
                 ->setParameter('genreId', $genreId);
+        }
+
+        if (!empty($directorId)) {
+            $qb->andWhere('d.id = :directorId')
+            ->setParameter('directorId', $directorId);
+        }
+
+        if (!empty($keyword)) {
+            $keyword = trim($keyword);
+            $qb->andWhere('m.name LIKE :keyword')
+            ->setParameter('keyword', '%'. $keyword .'%');
         }
 
         return $qb->getQuery()->getResult();
