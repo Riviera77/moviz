@@ -1,7 +1,35 @@
-{{ form_start(form)}}
+{# {{ form_start(form)}}
     {{ form_widget(form)}}
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Envoyer</button>
     </div>
         
-{{ form_end(form)}}
+{{ form_end(form)}} #}
+
+<div class="card bg-dark text-light mb-5">
+    <div class="card-body">
+
+        <h3 class="card-title mb-4">🍿 Donnez votre avis sur ce film</h3>
+
+        {{ form_start(form) }}
+
+        <div class="mb-3">
+            {{ form_label(form.rate, 'Votre note') }}
+            <div class="rate enabled">
+                {{ form_widget(form.rate) }}           
+            </div>
+            {{ form_errors(form.rate) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.review, 'Votre critique (facultatif)') }}
+            {{ form_widget(form.review, { 'attr': {'class': 'form-control', 'rows': 5, 'placeholder': 'Partagez votre ressenti, vos émotions, ou juste un emoji 🎞️'} }) }}
+            {{ form_errors(form.review) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">🎬 Envoyer mon avis</button>
+
+        {{ form_end(form) }}
+
+    </div>
+</div>

@@ -32,7 +32,13 @@ class ReviewType extends AbstractType
                 'expanded' => true, // Display as radio buttons
                 'multiple' => false, // Single choice
             ])
-            ->add('review')
+            ->add('review', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, [
+                'label' => 'Votre avis',
+                'attr' => [
+                    'placeholder' => 'Écrivez votre avis ici...',
+                    'rows' => 5,
+                ],
+            ])
         ;
     }
 

@@ -1,17 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tous les films!{% endblock %}
+{% block title %}Tous les films{% endblock %}
 
 {% block body %}
+<div class="container py-5 text-light">
 
-<div class="row text-center">
-    {% for movie in movies %}
-        {% include 'partials/movie/_movie_bloc.html.twig' %}
-    {% else %}
-        <p>No movies found.</p>
-    {% endfor %}
+    <h1 class="mb-4">🎬 Tous les films</h1>
+
+    {# Formulaire de recherche / filtres #}
+    <form method="get" class="mb-4">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <input type="text" name="keyword" class="form-control"
+                    placeholder="Titre du film..."
+                    value="{{ keyword }}">
+        </div>
+        <div class="col-md-3">
+            <select name="genreId" class="form-select">
+                <option value="">Tous les genres</option>
+                {% for genre in genres %}
+                    <option value="{{ genre.id }}" {% if genre.id == genreId %}selected{% endif %}>
+                        {{ genre.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="directorId" class="form-select">
+                <option value="">Tous les réalisateurs</option>
+                {% for director in directors %}
+                    <option value="{{ director.id }}" {% if director.id == directorId %}selected{% endif %}>
+                        {{ director.firstName }} {{ director.lastName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+        </div>
+    </div>
+</form>
+
+    {# Liste des films filtrés #}
+    <div class="row text-center">
+        {% for movie in movies %}
+            {% include 'partials/movie/_movie_bloc.html.twig' %}
+        {% else %}
+            <div class="col-12">
+                <p>Aucun film ne correspond à votre recherche.</p>
+            </div>
+        {% endfor %}
+    </div>
+
 </div>
-
-
-
 {% endblock %}

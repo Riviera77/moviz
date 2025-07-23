@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Inscription{% endblock %}
+
+{% block body %}
+    <h1>Inscription</h1>
+
+    
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm) }}
+
+            <div class="mb-3">
+                {{ form_label(registrationForm.email, 'Adresse e-mail') }}
+                {{ form_widget(registrationForm.email, { attr: { class: 'form-control' } }) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(registrationForm.nickname, { attr: { class: 'form-control' } }) }}
+                {{ form_errors(registrationForm.nickname) }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Mot de passe',
+                    attr: { class: 'form-control' }
+                }) }}
+                {{ form_errors(registrationForm.plainPassword) }}           
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(registrationForm.agreeTerms) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+        {{ form_end(registrationForm) }}
+    
+    
+{% endblock %}

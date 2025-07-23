@@ -2,19 +2,48 @@
 // customize some Bootstrap variables
 $primary: darken(#09b468, 15%);
 $secondary: #323b3c;
+$white: #f0f0f0;
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
 
 body {
-    background-color: beige;
+    background-color: #1e1e1e;
+    color: #f0f0f0;
 }
+
+// buttons
+.btn-primary {
+    background-color: $primary;
+    border-color: $primary;
+
+    &:hover {
+        background-color: lighten($primary, 10%);
+        border-color: lighten($primary, 10%);
+    }
+}
+
+.card, .container, .form-control, .form-select {
+    background-color: #2a2a2a;
+    color: #f0f0f0;
+    border: 1px solid #444;
+}
+
+// Links
+/* a {
+    color: lighten($primary, 10%);
+    &:hover {
+        color: lighten($primary, 20%);
+    }
+} */
 
 //Affichage des critiques avec style étoile
 .rate {
     display: flex;
     flex-flow: row-reverse;
-    justify-content: left;
+    justify-content: flex-start;
+    gap: 0.2em;
+    margin-top: 0.5rem;
 }
 
 .rate input[type="radio"] {
@@ -27,7 +56,7 @@ body {
     overflow:hidden;
     white-space:nowrap;
     cursor:pointer;
-    font-size:30px;
+    font-size:2rem;
     color:#ccc;
 }
 .rate:not(:checked) > label:before {

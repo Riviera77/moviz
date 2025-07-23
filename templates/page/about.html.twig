@@ -1,20 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PageController!{% endblock %}
+{% block title %}À propos de Moviz{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container py-5 text-light">
+    <h1 class="mb-4">🎬 À propos de Moviz</h1>
 
-<div class="example-wrapper">
-    <h1>À propos</h1>
+    <p>
+        Moviz est une plateforme indépendante de critiques et de notations de films, conçue pour les passionnés de cinéma, les curieux du dimanche et les amateurs de débats sans fin sur "le meilleur Tarantino".
+    </p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/src/Controller/PageController.php</code></li>
-        <li>Your template at <code>/var/www/html/templates/page/index.html.twig</code></li>
-    </ul>
+    <p>
+        Que vous ayez adoré ou détesté un film, ici, votre avis compte. Chaque utilisateur peut noter un film et, s’il le souhaite, partager une critique écrite (sous réserve de validation). Notre objectif ? Créer une communauté bienveillante où la diversité des goûts cinématographiques est une richesse.
+    </p>
+
+    <p>
+        Moviz est un projet 100% pédagogique, développé avec ❤️ à des fins d'apprentissage et de démonstration. Alors, installez-vous confortablement, cliquez sur “Les films” et commencez votre voyage critique 🎟️🍿
+    </p>
+
+    <p class="text-muted mt-5">Version actuelle : 1.0 • Réalisé avec Symfony, Bootstrap & passion</p>
 </div>
 {% endblock %}

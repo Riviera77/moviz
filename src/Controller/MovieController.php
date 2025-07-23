@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Movie;
 use App\Entity\Review;
 use App\Form\ReviewType;
+use App\Repository\DirectorRepository;
+use App\Repository\GenreRepository;
 use App\Repository\MovieRepository;
 use App\Repository\ReviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,16 +20,27 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 final class MovieController extends AbstractController
 {
     #[Route('/films', name: 'app_movie')]
-    public function index(MovieRepository $movieRepository, Request $request): Response
+    public function index(MovieRepository $movieRepository, GenreRepository $genreRepository, 
+                            DirectorRepository $directorRepository, Request $request): Response
     {
-        // Retrieve the genre ID from the request to add a filter by genre
+        
+        // Retrieve the parameters of search from URL
         $genreId = $request->get('genreId');
-        $movies = $movieRepository->findMovies($genreId);
+        $directorId = $request->get('directorId');
+        $keyword = $request->get('keyword');
+
+        //call the repository avec all filters
+        $movies = $movieRepository->findMovies($genreId, directorId: $directorId, keyword: $keyword);
 
         /* dump($movies); */
 
         return $this->render('movie/index.html.twig', [
             'movies' => $movies,
+            'genreId' => $genreId,
+            'directorId' => $directorId,
+            'keyword' => $keyword,
+            'genres' => $genreRepository->findAll(),
+            'directors' => $directorRepository->findAll(),
         ]);
     }
 
