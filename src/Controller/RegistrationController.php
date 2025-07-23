@@ -35,7 +35,9 @@ class RegistrationController extends AbstractController
             // do anything else you need here, like send an email
 
             $this->addFlash('success', 'Compte créé avec succès ! 🎉');
-            return $security->login($user, AppCustomAuthenticator::class, 'main');
+            $security->login($user, AppCustomAuthenticator::class, 'main');
+
+            return $this->redirectToRoute('app_home'); 
         }
 
         return $this->render('registration/register.html.twig', [
