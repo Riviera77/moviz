@@ -32,4 +32,12 @@ final class PageController extends AbstractController
             'controller_name' => 'PageController',
         ]);
     }
+
+    #[Route('/faq', name: 'app_faq')]
+    public function faq(): Response
+    {
+        return $this->render('page/faq.html.twig', [
+            'controller_name' => 'PageController',
+        ]);
+    }
 }
