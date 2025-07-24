@@ -60,7 +60,8 @@
 <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-4">
 		{% if movie.imageName %}
-			<img src="{{ vich_uploader_asset(movie, 'imageFile') }}" class="card-img-top" alt="affiche {{ movie.name }}">
+            <img src="https://image.tmdb.org/t/p/w300/{{ movie.imageName }}" alt="{{ movie.name }}" class="img-fluid rounded mb-3">
+			{# <img src="{{ vich_uploader_asset(movie, 'imageFile') }}" class="card-img-top" alt="affiche {{ movie.name }}"> #}
 		{% else %}
 			<img src="{{ asset('build/images/default-movie.png') }}" class="card-img-top" alt="affiche {{ movie.name }}">
 		{% endif %}
