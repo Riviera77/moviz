@@ -42,7 +42,7 @@
 </form>
 
     {# Liste des films filtrés #}
-    {# <div class="row text-center">
+    <div class="row text-center">
         {% for movie in movies %}
             {% include 'partials/movie/_movie_bloc.html.twig' %}
         {% else %}
@@ -50,25 +50,6 @@
                 <p>Aucun film ne correspond à votre recherche.</p>
             </div>
         {% endfor %}
-    </div> #}
-
-    <div class="row">
-  {% for movie in movies %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-            {% if movie.imageName %}
-            <img src="https://image.tmdb.org/t/p/w300/{{ movie.imageName }}" class="card-img-top" alt="{{ movie.name }}">
-            {% else %}
-            <img src="{{ asset('build/images/default-movie.png') }}" class="card-img-top" alt="Aucune image">
-            {% endif %}
-            <div class="card-body">
-            <h5 class="card-title">{{ movie.name }}</h5>
-            <p class="card-text">{{ movie.synopsis|length > 120 ? movie.synopsis|slice(0, 120) ~ '...' : movie.synopsis }}</p>
-            <a href="{{ path('app_movie_show', { id: movie.id }) }}" class="btn btn-primary">Voir le film</a>
-            </div>
-        </div>
-        </div>
-    {% endfor %}
     </div>
 </div>
 {% endblock %}

@@ -1,14 +1,11 @@
 
-<div class="col-md-4 my-2 d-flex">
-    <div class="card w-100">
-        {% if movie.imageName %}
-            <img src="{{ vich_uploader_asset(movie, 'imageFile') }}" class="card-img-top" alt="affiche {{ movie.name }}">
-        {% else %}
-            <img src="{{ asset('build/images/default-movie.png') }}" class="card-img-top" alt="affiche {{ movie.name }}">
-        {% endif %}
+<div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+        {% include 'partials/movie/_movie_image_film.html.twig' %}
         <div class="card-body">
             <h5 class="card-title">{{ movie.name }}</h5>
-            <a href="{{ url('app_movie_show', {'id': movie.id})}}" class="btn btn-primary">Voir l'affiche</a>
+            <p class="card-text">{{ (movie.synopsis|length > 120 ? movie.synopsis|slice(0, 120) ~ '...' : movie.synopsis)|striptags }}</p>
+            <a href="{{ path('app_movie_show', { id: movie.id }) }}" class="btn btn-primary">Voir le film</a>
         </div>
     </div>
 </div>
