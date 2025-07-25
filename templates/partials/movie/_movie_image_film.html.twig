@@ -4,7 +4,7 @@
     <img src="{{ asset('build/images/default-movie.png') }}" class="card-img-top" alt="affiche {{ movie.name }}">
 {% endif %} #}
 {% if movie.imageName %}
-    <img src="https://image.tmdb.org/t/p/w300/{{ movie.imageName }}" alt="{{ movie.name }}" class="img-fluid rounded mb-3">
+    <img src="https://image.tmdb.org/t/p/w200/{{ movie.imageName }}" alt="{{ movie.name }}" class="img-fluid rounded mb-3">
 {% elseif movie.imageName %}
     <img src="{{ vich_uploader_asset(movie, 'imageFile') }}" class="card-img-top" alt="affiche {{ movie.name }}">
 {% else %}
