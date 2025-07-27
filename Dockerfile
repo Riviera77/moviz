@@ -4,6 +4,7 @@ FROM php:8.3.20-fpm-alpine
 
 # Étape 2 : Installation des dépendances système
 RUN apk add --no-cache \
+    nginx \
     autoconf \
     bash \
     bzip2-dev \
@@ -23,7 +24,8 @@ RUN apk add --no-cache \
     unzip \
     php-pear \
     git \
-    curl
+    curl \
+&& mkdir -p /run/nginx
 
 # Étape 3 : Installer les extensions PHP nécessaires
 RUN docker-php-ext-install \
@@ -45,7 +47,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Copier config nginx
-COPY nginx/default.conf /etc/nginx/http.d/default.conf
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Script de démarrage
 COPY start.sh /start.sh
