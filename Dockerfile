@@ -1,4 +1,4 @@
-# Dockerfile
+# Dockerfile Moviz modifié pour déploiement sur Render.com
 # Étape 1 : Image de base PHP avec Alpine avec FPM et Alpine
 FROM php:8.3.20-fpm-alpine
 
@@ -39,7 +39,20 @@ RUN rm -rf /tmp/* /var/cache/apk/*
 # Étape 5 : Installe Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Étape 6 : Copier les sources dans le conteneur - 
-COPY . /var/www/html
 # Définis le répertoire de travail
 WORKDIR /var/www/html
+# Étape 6 : Copier les sources dans le conteneur - 
+COPY . /var/www/html
+
+# Copier config nginx
+COPY nginx/default.conf /etc/nginx/http.d/default.conf
+
+# Script de démarrage
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+# Exposer le port 80 (for Render to detect traffic HTTP)
+EXPOSE 80
+
+# Commande de démarrage
+CMD ["sh", "/start.sh"]
