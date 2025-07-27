@@ -40,5 +40,6 @@ RUN rm -rf /tmp/* /var/cache/apk/*
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Étape 6 : Copier les sources dans le conteneur - 
+COPY . /var/www/html
 # Définis le répertoire de travail
 WORKDIR /var/www/html
