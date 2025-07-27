@@ -1,7 +1,8 @@
 #!/bin/sh
+set -e
 
-# Démarrer PHP-FPM en arrière-plan
-php-fpm &
+# Lancer PHP-FPM en arrière-plan
+php-fpm -D
 
-# Lancer NGINX en mode "foreground" (important pour Render)
-nginx -g 'daemon off;'
+# Lancer nginx en avant-plan (IMPORTANT)
+nginx -g "daemon off;"
