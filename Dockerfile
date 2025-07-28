@@ -45,13 +45,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Définis le répertoire de travail
 WORKDIR /var/www/html
 
-# Copie les fichiers nécessaires pour installer les deps
-COPY composer.lock composer.json ./
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
-    && composer clear-cache
-
 # Étape 6 : Copier le projet dans le conteneur - 
 COPY . .
+
+RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
+    && composer clear-cache
 
 # Copier config nginx
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
