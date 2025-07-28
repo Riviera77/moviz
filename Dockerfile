@@ -48,7 +48,7 @@ WORKDIR /var/www/html
 # Étape 6 : Copier le projet dans le conteneur - 
 COPY . .
 
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
+RUN composer install --no-interaction --no-dev --optimize-autoloader \
     && composer clear-cache
 
 # Copier config nginx
