@@ -47,7 +47,7 @@ WORKDIR /var/www/html
 
 # Copie les fichiers nécessaires pour installer les deps
 COPY composer.lock composer.json ./
-RUN composer install --no-interaction --no-dev --optimize-autoloader \
+RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
     && composer clear-cache
 
 # Étape 6 : Copier le projet dans le conteneur - 
