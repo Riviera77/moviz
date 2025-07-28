@@ -1,8 +1,5 @@
 #!/bin/sh
-set -e
+# Démarrer PHP-FPM (en mode socket) et Nginx
 
-# Lancer PHP-FPM en arrière-plan
-php-fpm -D
-
-# Lancer nginx en avant-plan (IMPORTANT)
+php-fpm -y /usr/local/etc/php-fpm.conf -R &
 nginx -g "daemon off;"
