@@ -1,5 +1,6 @@
 # Dockerfile Moviz modifié pour déploiement sur Render.com
-# Étape 1 : Image de base PHP avec Alpine avec FPM et Alpine
+
+# Étape 1 : Image de base PHP avec Alpine avec FPM
 FROM php:8.3.20-fpm-alpine
 
 # Étape 2 : Installation des dépendances système
@@ -25,7 +26,7 @@ RUN apk add --no-cache \
     php-pear \
     git \
     curl \
-&& mkdir -p /run/nginx
+    && mkdir -p /run/nginx
 
 # Étape 3 : Installer les extensions PHP nécessaires
 RUN docker-php-ext-install \
@@ -48,14 +49,19 @@ WORKDIR /var/www/html
 # Étape 6 : Copier le projet dans le conteneur - 
 COPY . .
 
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
+# Étape 7 : Installer les dépendances PHP avec Composer
+RUN composer install --no-interaction --no-dev --optimize-autoloader \
     && composer dump-autoload --classmap-authoritative \      
+    && php bin/console cache:warmup \
     && composer clear-cache
 
-# Copier config nginx
+# Étape 8 : Configurer les permissions pour Symfony
+RUN chown -R www-data:www-data /var/www/html/var /var/www/html/public
+
+# Étape 9 : Copier la configuration Nginx
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Script de démarrage
+# Étape 10 : Copier le script de démarrage
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
