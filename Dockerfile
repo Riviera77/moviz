@@ -55,6 +55,8 @@ WORKDIR /var/www/html
 # Étape 8 : Copier le projet dans le conteneur - 
 COPY . .
 
+ENV APP_ENV=prod
+
 # Étape 9 : Installer les dépendances PHP avec Composer
 RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
     && composer dump-autoload --classmap-authoritative \
