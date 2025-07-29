@@ -46,18 +46,22 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Étape 6 : Vérification des outils
 RUN php --version && composer --version
 
-# Étape 7 : Définis le répertoire de travail
+# Autoriser les plugins Composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+# Étape 7 : Définir le répertoire de travail
 WORKDIR /var/www/html
 
 # Étape 8 : Copier le projet dans le conteneur - 
 COPY . .
 
 # Étape 9 : Installer les dépendances PHP avec Composer
-RUN composer install --no-interaction --no-dev --optimize-autoloader \
+RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
     && composer dump-autoload --classmap-authoritative \
     && composer show symfony/runtime || composer require symfony/runtime \
     && php bin/console cache:warmup \
-    && composer clear-cache
+    && composer clear-cache \
+    && composer check-platform-reqs
 
 # Étape 10 : Configurer les permissions pour Symfony
 RUN chown -R www-data:www-data /var/www/html/var /var/www/html/public
