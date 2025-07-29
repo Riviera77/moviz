@@ -53,8 +53,9 @@ WORKDIR /var/www/html
 COPY . .
 
 # Étape 9 : Installer les dépendances PHP avec Composer
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
-    && composer dump-autoload --classmap-authoritative \      
+RUN composer install --no-interaction --no-dev --optimize-autoloader \
+    && composer dump-autoload --classmap-authoritative \
+    && composer show symfony/runtime || composer require symfony/runtime \
     && php bin/console cache:warmup \
     && composer clear-cache
 
