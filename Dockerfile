@@ -43,25 +43,28 @@ RUN rm -rf /tmp/* /var/cache/apk/*
 # Étape 5 : Installe Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Définis le répertoire de travail
+# Étape 6 : Vérification des outils
+RUN php --version && composer --version
+
+# Étape 7 : Définis le répertoire de travail
 WORKDIR /var/www/html
 
-# Étape 6 : Copier le projet dans le conteneur - 
+# Étape 8 : Copier le projet dans le conteneur - 
 COPY . .
 
-# Étape 7 : Installer les dépendances PHP avec Composer
-RUN composer install --no-interaction --no-dev --optimize-autoloader \
+# Étape 9 : Installer les dépendances PHP avec Composer
+RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
     && composer dump-autoload --classmap-authoritative \      
     && php bin/console cache:warmup \
     && composer clear-cache
 
-# Étape 8 : Configurer les permissions pour Symfony
+# Étape 10 : Configurer les permissions pour Symfony
 RUN chown -R www-data:www-data /var/www/html/var /var/www/html/public
 
-# Étape 9 : Copier la configuration Nginx
+# Étape 11 : Copier la configuration Nginx
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Étape 10 : Copier le script de démarrage
+# Étape 12 : Copier le script de démarrage
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
