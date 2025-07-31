@@ -63,13 +63,16 @@ RUN composer install --no-interaction --no-dev --optimize-autoloader --no-script
     && composer clear-cache \
     && composer check-platform-reqs
 
-# Étape 10 : Configurer les permissions pour Symfony
+# Étape 10 : Créer les dossiers nécessaires
+RUN mkdir -p /var/www/html/var /var/www/html/public
+
+# Étape 11 : Configurer les permissions pour Symfony
 RUN chown -R www-data:www-data /var/www/html/var /var/www/html/public
 
-# Étape 11 : Copier la configuration Nginx
+# Étape 12 : Copier la configuration Nginx
 COPY nginx/nginx.conf.template /etc/nginx/nginx.conf
 
-# Étape 12 : Copier le script de démarrage
+# Étape 13 : Copier le script de démarrage
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
