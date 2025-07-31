@@ -13,7 +13,7 @@ http {
 
     server {
         listen 80;
-        server_name localhost;
+        server_name _;
 
         root /var/www/html/public;
         index index.php index.html;
@@ -25,10 +25,13 @@ http {
         location ~ \.php$ {
             include fastcgi.conf;
             fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         }
 
         location ~ /\.ht {
             deny all;
         }
+        error_page 404 /404.html;
     }
 }
