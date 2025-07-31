@@ -8,7 +8,7 @@ services:
     container_name: php_moviz
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-local
     volumes:
       - .:/var/www/html/
     depends_on:
@@ -37,7 +37,6 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: ${MYSQL_DB}
-      # You should definitely change the password in production
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
