@@ -57,7 +57,7 @@ COPY . .
 ENV APP_ENV=prod
 
 # Étape 9 : Installer les dépendances PHP avec Composer
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
+RUN composer install --no-interaction --no-dev --optimize-autoloader \
     && composer dump-autoload --classmap-authoritative \
     && php bin/console cache:warmup || true \
     && composer clear-cache \
