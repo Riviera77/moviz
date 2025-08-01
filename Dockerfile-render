@@ -1,29 +1,16 @@
 # Dockerfile Moviz (déploiement sur Render)
 
 # Étape 1 : Image de base PHP avec Alpine avec FPM
-FROM php:8.3.20-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 # Étape 2 : Installation des dépendances système
 RUN apk add --no-cache \
     nginx \
-    autoconf \
     bash \
-    bzip2-dev \
-    coreutils \
-    gcc \
-    g++ \
     icu-dev \
     libxml2-dev \
     libzip-dev \
-    libpng-dev \
-    make \
-    musl-dev \
-    nodejs \
-    npm \
-    openssl \
-    zlib-dev \
     unzip \
-    php-pear \
     git \
     curl
 
@@ -41,10 +28,6 @@ RUN rm -rf /tmp/* /var/cache/apk/*
 
 # Étape 5 : Installe Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Étape 6 : Vérification des outils
-RUN php --version && composer --version
-
 # Autoriser les plugins Composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
@@ -57,17 +40,12 @@ COPY . .
 ENV APP_ENV=prod
 
 # Étape 9 : Installer les dépendances PHP avec Composer
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
-    && composer dump-autoload --classmap-authoritative \
-    && php bin/console cache:warmup || true \
-    && composer clear-cache \
-    && composer check-platform-reqs
+RUN composer install --no-interaction --no-dev --optimize-autoloader \
+    && php bin/console cache:warmup || true 
 
-# Étape 10 : Créer les dossiers nécessaires
-RUN mkdir -p /var/www/html/var /var/www/html/public
-
-# Étape 11 : Configurer les permissions pour Symfony
-RUN chown -R www-data:www-data /var/www/html/var /var/www/html/public
+# Étape 10: Permissions
+RUN mkdir -p var public \
+    && chown -R www-data:www-data var public
 
 # Étape 12 : Copier la configuration Nginx
 COPY nginx/nginx.conf.template /etc/nginx/nginx.conf
