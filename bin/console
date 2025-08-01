@@ -3,19 +3,15 @@
 
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Dotenv\Dotenv;
 
-if (!is_dir(dirname(__DIR__).'/vendor')) {
-    throw new LogicException('Dependencies are missing. Try running "composer install".');
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+// Fallback : charge .env uniquement s’il existe (utile en local ou en cas d’oubli sur Render)
+if (!isset($_ENV['APP_ENV']) && file_exists(dirname(__DIR__).'/.env')) {
+    (new Dotenv())->loadEnv(dirname(__DIR__).'/.env');
 }
 
-if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
-    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
-}
-
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
-
-return function (array $context) {
-    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
-
-    return new Application($kernel);
-};
+$kernel = new Kernel($_ENV['APP_ENV'] ?? 'prod', (bool) ($_ENV['APP_DEBUG'] ?? false));
+$application = new Application($kernel);
+$application->run();
