@@ -7,12 +7,16 @@ FROM php:8.3-fpm-alpine
 RUN apk add --no-cache \
     nginx \
     bash \
+    curl \
+    git \
     icu-dev \
     libxml2-dev \
     libzip-dev \
+    zlib-dev \
+    libpng-dev \
     unzip \
-    git \
-    curl
+    oniguruma-dev \
+    postgresql-dev
 
 # Étape 3 : Installer les extensions PHP nécessaires
 RUN docker-php-ext-install \
@@ -41,11 +45,8 @@ ENV APP_ENV=prod
 
 # Étape 9 : Installer les dépendances PHP avec Composer
 RUN composer install --no-interaction --no-dev --optimize-autoloader \
-    && php bin/console cache:warmup || true 
-
-# Étape 10: Permissions
-RUN mkdir -p var public \
-    && chown -R www-data:www-data var public
+    && php bin/console cache:clear \
+    && php bin/console cache:warmup 
 
 # Étape 12 : Copier la configuration Nginx
 COPY nginx/nginx.conf.template /etc/nginx/nginx.conf
@@ -53,6 +54,9 @@ COPY nginx/nginx.conf.template /etc/nginx/nginx.conf
 # Étape 13 : Copier le script de démarrage
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+
+# Permissions
+RUN chown -R www-data:www-data var public
 
 # Exposer le port 80 (for Render to detect traffic HTTP)
 EXPOSE 80
