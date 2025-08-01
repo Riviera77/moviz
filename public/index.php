@@ -1,17 +1,14 @@
-#!/usr/bin/env php
 <?php
 
 use App\Kernel;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Dotenv\Dotenv;
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-// ✅ Fallback : charge .env uniquement s’il existe (utile en local ou en cas d’oubli sur Render)
+// recover only .env files if they exist (file-based fallback)
 if (!isset($_ENV['APP_ENV']) && file_exists(dirname(__DIR__).'/.env')) {
-    (new Dotenv())->loadEnv(dirname(__DIR__).'/.env');
+    (new Symfony\Component\Dotenv\Dotenv())->loadEnv(dirname(__DIR__).'/.env');
 }
 
-$kernel = new Kernel($_ENV['APP_ENV'] ?? 'prod', (bool) ($_ENV['APP_DEBUG'] ?? false));
-$application = new Application($kernel);
-$application->run();
+return function (array $context) {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};
