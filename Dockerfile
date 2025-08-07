@@ -20,12 +20,6 @@ WORKDIR /var/www/html
 # Copy the project
 COPY . .
 
-# Install the dependencies of PHP
-RUN composer install --no-dev --optimize-autoloader
-
-# Set permissions for Symfony cache/log dirs
-RUN mkdir -p var && chown -R www-data:www-data var
-
 # Port Heroku
 EXPOSE 8080
 
