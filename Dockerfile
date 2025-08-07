@@ -29,4 +29,4 @@ RUN mkdir -p var && chown -R www-data:www-data var
 # Port Heroku
 EXPOSE 8080
 
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
