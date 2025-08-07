@@ -20,6 +20,9 @@ WORKDIR /var/www/html
 # Copy the project
 COPY . .
 
+# ⚠️ Les scripts doivent être désactivés dans composer.json pour éviter l'erreur DATABASE_URL
+RUN composer install --no-dev --optimize-autoloader
+
 # Port Heroku
 EXPOSE 8080
 

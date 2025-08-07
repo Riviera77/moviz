@@ -3,5 +3,3 @@ build:
     web: Dockerfile
   config:
     APP_ENV: prod
-  command:
-    - composer install --no-dev --optimize-autoloader
