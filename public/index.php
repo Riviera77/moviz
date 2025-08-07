@@ -3,11 +3,13 @@
 use App\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+require_once dirname(__DIR__) . '/vendor/autoload_runtime.php';
 
-// Fallback local uniquement si les variables d'env ne sont pas définies (Heroku n'a pas besoin du .env)
-if (!isset($_ENV['APP_ENV']) && file_exists(dirname(__DIR__).'/.env')) {
-    (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
+// ✅ Ne charge .env que si aucune variable d'environnement n'est déjà définie (ex: sur Heroku)
+if ($_ENV['APP_ENV'] ?? ($_SERVER['APP_ENV'] ?? null)) {
+    // Les variables sont déjà définies (ex : via Heroku Config Vars)
+} elseif (file_exists(dirname(__DIR__) . '/.env')) {
+    (new Dotenv())->loadEnv(dirname(__DIR__) . '/.env');
 }
 
 return function (array $context) {
