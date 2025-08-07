@@ -23,8 +23,8 @@ COPY . .
 # Install the dependencies of PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# Permissions
-RUN chown -R www-data:www-data /var/www/html/var
+# Set permissions for Symfony cache/log dirs
+RUN mkdir -p var && chown -R www-data:www-data var
 
 # Port Heroku
 EXPOSE 8080
