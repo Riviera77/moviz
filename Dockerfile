@@ -1,29 +1,46 @@
-# Dockerfile Moviz (deployment with Heroku)
+# --- 1) Build des assets (Node) ---
+FROM node:18 AS assets
+WORKDIR /app
 
+# Installer dépendances front
+COPY package*.json ./
+RUN npm ci
+
+# Copier sources front & config webpack
+COPY webpack.config.js ./
+COPY assets ./assets
+
+# Le build Encore écrit dans public/build
+RUN npm run build
+
+# --- 2) Runtime PHP (Symfony) ---
 FROM php:8.2-fpm
 
-# Variables environment for composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_HOME=/composer
 
-# Install dependencies system
 RUN apt-get update && apt-get install -y \
     git unzip zip curl libpq-dev libicu-dev libzip-dev libpng-dev \
     && docker-php-ext-install intl pdo pdo_pgsql zip
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Composer
+RUN curl -sS https://getcomposer.org/installer | php -- \
+    --install-dir=/usr/local/bin --filename=composer
 
-# Create repository for the application
 WORKDIR /var/www/html
 
-# Copy the project
+# Copier le code PHP
 COPY . .
 
-# ⚠️ Les scripts doivent être désactivés dans composer.json pour éviter l'erreur DATABASE_URL
+# (On ne lance PAS npm ici)
+# Composer (prod)
 RUN composer install --no-dev --optimize-autoloader
 
-# Port Heroku
-EXPOSE 8080
+# Copier le build généré à l’étape Node
+COPY --from=assets /app/public/build ./public/build
 
+# Permissions cache/log Symfony
+RUN mkdir -p var && chown -R www-data:www-data var
+
+EXPOSE 8080
 CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
