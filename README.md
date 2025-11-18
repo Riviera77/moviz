@@ -20,7 +20,7 @@ Moviz est un site web de **notation et critique de films**. Il permet aux utilis
 - **Base de données relationnelle** : MySQL
 - **Conteneurisation** : Docker & Docker Compose
 - **CI/CD** : GitHub Actions
-- **Déploiement** : 
+- **Déploiement** : https://moviz-app-6f3b24b150ad.herokuapp.com/
 - **Environnement local** : Docker Desktop
 
 ## 📁 Structure du projet
