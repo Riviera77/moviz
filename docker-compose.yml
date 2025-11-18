@@ -3,7 +3,6 @@ networks:
     driver: bridge
 
 services:
-
   php:
     container_name: php_moviz
     build:
@@ -16,7 +15,7 @@ services:
         condition: service_healthy
     networks:
       - Moviz_network
-  
+
   web:
     image: nginx:alpine
     container_name: nginx_moviz
@@ -24,13 +23,13 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - .:/var/www/html
     ports:
-      - 8081:80
+      - 8086:80
     depends_on:
       - php
     networks:
       - Moviz_network
 
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database:
     image: mysql:8.0
     container_name: db_moviz
@@ -51,10 +50,11 @@ services:
     networks:
       - Moviz_network
     volumes:
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally
+      # You may use a bind-mounted host directory instead,
+      # so that it is harder to accidentally
       # remove the volume and lose all your data!
       - ./docker/db/data:/var/lib/mysql
-###< doctrine/doctrine-bundle ###
+  ###< doctrine/doctrine-bundle ###
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -72,8 +72,7 @@ services:
       - Moviz_network
 
 volumes:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   moviz_data:
 ###< doctrine/doctrine-bundle ###
 
-  
