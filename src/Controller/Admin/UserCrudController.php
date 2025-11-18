@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\{PasswordType, RepeatedType};
 use Symfony\Component\Form\{FormBuilderInterface, FormEvent, FormEvents};
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class UserCrudController extends AbstractCrudController
 {
     public function __construct(
@@ -91,7 +92,7 @@ class UserCrudController extends AbstractCrudController
                 return;
             }
 
-            $hash = $this->userAccountPasswordHasher->hashPassword($this->getUser(), $password);
+            $hash = $this->userAccountPasswordHasher->hashPassword($form->getData(), $password);
             $form->getData()->setPassword($hash);
         };
     }
