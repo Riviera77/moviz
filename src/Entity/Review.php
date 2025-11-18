@@ -6,6 +6,7 @@ use App\Entity\UserAccount;
 use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
 class Review
@@ -16,9 +17,12 @@ class Review
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\NotNull(message: 'La note est obligatoire')]
+    #[Assert\Range(min: 1, max: 5, notInRangeMessage: 'La note doit être comprise entre 1 et 5')]
     private ?int $rate = 1;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(max: 1000, maxMessage: 'Le commentaire ne peut pas dépasser 1000 caractères')]
     private ?string $review = null;
 
     #[ORM\Column]
