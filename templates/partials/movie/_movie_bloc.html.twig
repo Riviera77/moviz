@@ -4,8 +4,10 @@
         {% include 'partials/movie/_movie_image_film.html.twig' %}
         <div class="card-body">
             <h5 class="card-title">{{ movie.name }}</h5>
-            <p class="card-text">{{ (movie.synopsis|length > 120 ? movie.synopsis|slice(0, 120) ~ '...' : movie.synopsis)|striptags }}</p>
-            <a href="{{ path('app_movie_show', { id: movie.id }) }}" class="btn btn-primary">Voir le film</a>
+            <p class="card-text">
+            {{ (movie.synopsis|length > 120 ? movie.synopsis|slice(0, 120) ~ '...' : movie.synopsis)|striptags }}</p>
+            <a href="{{ path('app_movie_show', { id: movie.id }) }}" class="btn btn-primary">
+            Voir le film</a>
         </div>
     </div>
 </div>

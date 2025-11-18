@@ -3,33 +3,48 @@
 {% block title %}Moviz{% endblock %}
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-    
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5"> 
-            <div class="col-10 col-sm-8 col-lg-6"> 
-                <img class="d-block mx-lg-auto img-fluid" src="{{ asset('build/images/logo-moviz.png')}}" alt="Logo Moviz" width="400">
-            </div> 
-            <div class="col-lg-6"> 
-                <h1 class="display-5 fw-bold text-primary lh-1 mb-3">Bienvenue sur Moviz, le cinéma vu par vous</h1> 
-                <p class="lead">Chaque film mérite plus qu’une note : il mérite votre avis.
-                Partagez vos coups de cœur (ou vos flops), notez les dernières sorties et découvrez ce que pense la communauté.
-                Thriller haletant, comédie romantique ou drame à couper le souffle : ici, chaque genre a sa place.</p> 
-            </div> 
-        </div> 
-    <h2>Les derniers films ajoutés</h2>
-    <div class="row text-center">
-        {% for movie in movies %}
-            {% include 'partials/movie/_movie_bloc.html.twig' %}
-        {% else %}
-            <p>No movies found.</p>
-        {% endfor %}
+  {% for message in app.flashes('success') %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+  {% endfor %}
+
+  <section class="hero py-5">
+    <div class="container">
+      <div class="row align-items-center text-center text-md-start g-4">
+        <div class="col-12 col-md-6 order-2 order-md-1">
+          <h1 class="display-5 fw-bold text-primary lh-1 mb-3">
+            Bienvenue sur Moviz, le cinéma vu par vous
+          </h1>
+          <p class="lead">
+            Chaque film mérite plus qu’une note : il mérite votre avis.<br>
+            Partagez vos coups de cœur, notez les dernières sorties et découvrez ce que pense la communauté.
+          </p>
+        </div>
+
+        <div class="col-12 col-md-6 order-1 order-md-2">
+          <img
+            src="{{ asset('build/images/logo-moviz.png') }}"
+            alt="Logo Moviz"
+            class="img-fluid mx-auto d-block"
+            width="400"
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="movies py-4">
+    <div class="container">
+      <h2 class="text-center mb-4">Les derniers films ajoutés</h2>
+      <div class="row g-4 justify-content-center">
+        {% for movie in movies %}
+          {% include 'partials/movie/_movie_bloc.html.twig' %}
+        {% else %}
+          <p class="text-center">Aucun film trouvé pour le moment.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 {% endblock %}

@@ -1,28 +1,44 @@
-<div class="container">
-            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                    <img src="{{ asset('build/images/logo-moviz.png')}}" alt="Logo Moviz" height="40">
-                </a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center me-3" href="{{ path('app_home') }}">
+      <img src="{{ asset('build/images/logo-moviz.png') }}" alt="Logo Moviz" height="35" class="me-2 img-fluid" style="max-height: 80px;">
+    </a>
 
-                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="{{ path('app_home')}}" class="nav-link px-2 text-white">Accueil</a></li>
-                    <li><a href="{{  path('app_movie')}}" class="nav-link px-2 text-white">Les films</a></li>
-                    <li><a href="{{  path('app_about')}}" class="nav-link px-2 text-white">À propos</a></li>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold text-uppercase" href="{{ path('admin') }}">Admin</a>
-                        </li>
-                    {% endif %}
-                </ul>
+    <!-- Bouton burger -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-                <div class="col-md-3 text-end">
-                    {% if app.user %}
-                        <span class="me-2">👋 Bonjour {{ app.user.nickname ?? app.user.email }}</span>
-                        <a href="{{ path('app_logout') }}" class="btn btn-outline-danger">Logout</a>
-                    {% else %}
-                        <a href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Connexion</a>
-                        <a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a>
-                    {% endif %}
-                </div>
-            </header>
-        </div>
+    <!-- Contenu du menu -->
+    <div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-white {% if app.request.get('_route') == 'app_home' %}active{% endif %}" href="{{ path('app_home') }}">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white {% if app.request.get('_route') == 'app_movie' %}active{% endif %}" href="{{ path('app_movie') }}">Les films</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white {% if app.request.get('_route') == 'app_about' %}active{% endif %}" href="{{ path('app_about') }}">À propos</a>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+          <li class="nav-item">
+            <a class="nav-link text-uppercase fw-bold text-warning" href="{{ path('admin') }}">Admin</a>
+          </li>
+        {% endif %}
+      </ul>
+
+      <!-- Boutons à droite -->
+      <div class="d-flex align-items-center ms-lg-3">
+        {% if app.user %}
+          <span class="me-2 text-white small">👋 Bonjour {{ app.user.nickname ?? app.user.email }}</span>
+          <a href="{{ path('app_logout') }}" class="btn btn-outline-danger btn-sm">Logout</a>
+        {% else %}
+          <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-sm me-2">Connexion</a>
+          <a href="{{ path('app_register') }}" class="btn btn-primary btn-sm">S'inscrire</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

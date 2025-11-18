@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,19 +9,19 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
     </head>
     <body>
 
         {% include 'partials/_header.html.twig' %}
 
-        <div class="container">
+        <main class="container py-4">
             {% block body %}{% endblock %}
-        </div>
+        </main>
         
         {% include 'partials/_footer.html.twig' %}
 
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </body>
 </html>
