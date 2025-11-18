@@ -5,17 +5,18 @@ namespace App\Controller;
 use App\Entity\Movie;
 use App\Entity\Review;
 use App\Form\ReviewType;
-use App\Repository\DirectorRepository;
 use App\Repository\GenreRepository;
 use App\Repository\MovieRepository;
 use App\Repository\ReviewRepository;
+use App\Repository\DirectorRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class MovieController extends AbstractController
 {
@@ -91,5 +92,11 @@ final class MovieController extends AbstractController
             'user' => $user,
             'averageRate'=> $averageRate,
         ]);
+    }
+    #[Route('/api/movies/latest', name: 'api_movies_latest')]
+    public function latest(MovieRepository $repo): JsonResponse
+    {
+        $movies = $repo->findBy([], ['id' => 'DESC'], 10);
+        return $this->json($movies);
     }
 }
